@@ -1,0 +1,26 @@
+Standardizer__Step-1 --Development plan(18-02-2022)
+
+step-1 (Designing)
+	1- create comman header file for all pages. 
+	2- Design CoA page UI.
+	3- create navbar with bootstrap-sliding-menu-with-scroll-arrows.
+	4- for searchbar and list i use  Filter/Search List concept.
+step-2 (Development)
+	1- converting csv data into json object.
+		-function i use: 
+				$.ajax({
+         				url: "csv/MasterChartOfAcounts-Sheet1.csv",
+            				async: false,
+            				success: function (csvd) {
+                			var items = $.csv.toObjects(csvd);
+                			console.log(items);
+               				var jsonobject = JSON.stringify(items);
+                			console.log(jsonobject);
+            				},
+            				dataType: "text",
+            				complete: function () { 
+                			alert("completed");
+            				}
+        				});
+	2- making a display function to diaplay data in ul,li form.
+	3- implement drag and drop event with the help of sortablejs .

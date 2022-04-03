@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>CoA</title>
+    <!--BTS 4 CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <!--JQ CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Font Awesome-->
+    <script src="https://kit.fontawesome.com/b87a2f0757.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js" integrity="sha512-zYXldzJsDrNKV+odAwFYiDXV2Cy37cwizT+NkuiPGsa9X1dOz04eHvUWVuxaJ299GvcJT31ug2zO4itXBjFx4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        .o-hidden {
+            overflow: hidden;
+        }
+
+        .nav {
+            transition: transform 0.4s;
+            transform: translateX(50%);
+            left: -50%;
+        }
+
+            .nav.justify-content-end {
+                transform: translateX(0);
+                left: 0;
+            }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #myInput {
+            background-image: url('images/search_icon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+        }
+
+        .myUL {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .myUL li {
+                border: 1px solid #ddd;
+                margin-top: -1px; /* Prevent double borders */
+                margin-bottom:5px;
+                background-color: #f6f6f6;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                color: black;
+                display: block
+            }
+        .left {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            height:400px;
+        }
+
+            .left li {
+                border: 1px solid #ddd;
+                margin-top: -1px; /* Prevent double borders */
+                background-color: #f6f6f6;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                color: black;
+                display: block
+            }
+
+                .myUL li:hover:not(.header) {
+                    background-color: #eee;
+                }
+
+        div .listDiv {
+            margin: 4px, 4px;
+            padding: 4px;
+            height: 460px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: justify;
+            cursor: grab;
+            scroll-behavior: auto;
+            overflow-y: scroll;
+        }
+        .listDiv::-webkit-scrollbar {
+            display: none;
+        }
+        .active{
+            color:green!important;
+            border-bottom:2px solid green!important;
+        }
+        .nav-link{
+            color:black;
+        }
+        h5{
+            //padding-left:10px;
+            padding:10px;
+            border-radius:5px;
+        }
+        .navbtn {
+            background-color: lightgray !important;
+            color: dimgray!important;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="btn-toolbar " role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="first group">
+                        <button type="button" class="btn navbtn" value="Assets" onclick="sort(this)">Assets</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="second group">
+                        <button type="button" class="btn navbtn" value="Liabilities" onclick="sort(this)">Liabilities</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Third group">
+                        <button type="button" class="btn navbtn" value="Equity" onclick="sort(this)">Equity/Capital</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Third group">
+                        <button type="button" class="btn navbtn" value="Revenue" onclick="sort(this)">Revenue</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Third group">
+                        <button type="button" class="btn navbtn" value="COGS" onclick="sort(this)">CoGS</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Third group">
+                        <button type="button" class="btn navbtn" value="Expense" onclick="sort(this)">G&A Expenses</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Third group">
+                        <button type="button" class="btn navbtn" value="Other Rev & Exp" onclick="sort(this)">Other Revenue & Expense</button>
+          
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-9 " >
+                <section>
+                    <div class="row">
+                        <div class="col-md-3" >
+                            <h5>Source Account  Structure</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Likely Destinat Account</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5></h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 left " >
+                            <h5 class="bg-info text-white">Balance Sheet Accounts</h5>
+                            <div id="left0" class="left listDiv">
+                                <ul class="myUL">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 left" >
+                            <h5 class="bg-info text-white">Most Likely</h5>
+                            <div class="left" id="left1"></div>
+                        </div>
+                        <div class="col-md-3 left" >
+                            <h5 class="bg-info text-white">Likely</h5>
+                            <div class="left" id="left2"></div>
+                        </div>
+                        <div class="col-md-3 left" >
+                            <h5 class="bg-info text-white">Possible</h5>
+                            <div class="left" id="left3"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+                    <div class="col-md-3">
+                        <h5>Destination Account Structure</h5>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <h5 class="bg-success text-white">Balance Sheet Accounts</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col pt-2">
+                                <div class="d-flex align-items-center border">
+                                    <div class="flex-shrink-0">
+                                        <a href="#" class="btn-left btn-link p-2 toggle text-dark"><i class="fa fa-arrow-left"></i></a>
+                                    </div>
+                                    <div class="flex-grow-1 w-100 o-hidden">
+                                        <ul class="nav nav-fill text-uppercase small position-relative flex-nowrap remove">
+                                            <li class="nav-item ">
+                                                <a class="nav-link active" value="All" onclick="allclick ()">All</a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link" value="Assets" id="assets" onclick="sort(this)">Assets</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link " value="Liabilities" id="liability" onclick="sort(this)">Liability</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" value="Equity" id="equity/capital" onclick="sort(this)">Equity/capital</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link  " value="Revenue" id="revenu" onclick="sort(this)">Revenu</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link  " value="COGS" id="cogs" onclick="sort(this)">CoGS</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link " value="Expense" id="g&aexpenses" onclick="sort(this)">G&A_Expenses</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link " value="Other Rev & Exp" id="other_revenue" onclick="sort(this)">Other_Revenue_&_Expense</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <a href="#" class="btn-right btn-link toggle p-2 text-dark"><i class="fa fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search here.." title="Type some here">
+
+                            </div>
+                        </div>
+                        <div class="row listDiv">
+                            <div class="col">
+                                <ul class="myUL" id="myUL">
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    <script>
+        //To load header
+        $(function () {
+            $("#header").load("header.html");
+           
+        });
+       
+        //For navbar scrolling
+        $('.toggle').click(function () {
+            $('.nav').toggleClass("justify-content-end");
+            $('.toggle').toggleClass("text-light");
+        });
+        function myFunction() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+        $(document).ready(function () {
+            
+            
+            $.ajax({
+                url: "sheet.csv",
+                async: false,
+                success: function (csvd) {
+                    var items = $.csv.toObjects(csvd);
+                    listData = items;
+                },
+                dataType: "text",
+                complete: function () {
+                    return true;
+
+                },
+            });
+            $('body').load(allclick());
+        });
+        function sort(obj) {
+            $(".myUL").empty();
+            //var currentid = $(obj).attr('id');
+            //$(".active").attr("class", "nav-link");
+            //document.getElementById(currentid).className = "nav-link active";
+            var currentvalue = $(obj).attr('value');
+            var displayList = "";
+            for (let i = 0; i < listData.length; i++) {
+                if (currentvalue == listData[i].Type) {
+                    displayList += "<li class='border py-2'><i class='fa-solid fa-grip-vertical'></i><a>" + listData[i].Number + '--' + listData[i].Name + "</a>Account</li>";
+                    $(".myUL").append(displayList);
+                    displayList = "";
+                }
+                }
+            
+        }
+        function allclick() {
+            $(".myUL").empty();
+            var displayList = "";
+            for (let i = 0; i < listData.length; i++) {
+                displayList += "<li ><i class='fa-solid fa-grip-vertical'></i><a>" + listData[i].Number + '--' + listData[i].Name + "</a>Account</li>";
+                $(".myUL").append(displayList);
+                displayList = "";
+            }
+            
+        }
+        new Sortable(myUL, {
+            group: {
+                name: 'shared',
+                pull: 'clone',
+                put: false // do not allow items to be put into this list
+            },
+            animation: 150,
+            sort: false // to disable sorting: set sort to false
+        });
+
+        new Sortable(left0, {
+            group: 'shared',
+            animation: 150
+        });
+        new Sortable(left1, {
+            group: 'shared',
+            animation: 150
+        });
+        new Sortable(left2, {
+            group: 'shared',
+            animation: 150
+        });
+        new Sortable(left3, {
+            group: 'shared',
+            animation: 150
+        });
+
+    </script>
+    <script src="jquery.csv.js"></script>
+    <script src="jquery.csv.min.js"></script>
+</body>
+</html>
